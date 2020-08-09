@@ -1,0 +1,20 @@
+[package]
+name = "tracing-unwrap"
+version = "0.0.1"
+authors = ["Andre Braga Reis <andre@brg.rs>"]
+edition = "2018"
+description = "Extension traits for logging failed unwraps to a tracing subscriber."
+license = "Apache-2.0/MIT"
+repository = "https://github.com/abreis/tracing-unwrap"
+documentation = "https://docs.rs/tracing-unwrap"
+keywords = ["log", "logging", "tracing"]
+categories = ["development-tools::debugging"]
+readme = "README.md"
+
+[features]
+default = ["panic-quiet"]
+# Makes failed unwraps panic with an empty message.
+panic-quiet = []
+
+[dependencies]
+tracing = "0.1"
