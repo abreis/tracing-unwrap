@@ -219,6 +219,8 @@ pub trait OptionExt<T> {
 }
 
 impl<T> OptionExt<T> for Option<T> {
+    #[inline]
+    #[track_caller]
     fn unwrap_or_log(self) -> T {
         match self {
             Some(val) => val,
