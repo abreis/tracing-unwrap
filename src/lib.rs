@@ -219,6 +219,8 @@ pub trait OptionExt<T> {
 }
 
 impl<T> OptionExt<T> for Option<T> {
+    #[inline]
+    #[track_caller]
     fn unwrap_or_log(self) -> T {
         match self {
             Some(val) => val,
@@ -269,6 +271,19 @@ impl<T> OptionExt<T> for Option<T> {
 #[cold]
 #[track_caller]
 fn failed(msg: &str) -> ! {
+    #[cfg(feature = "log-location")]
+    {
+        let location = std::panic::Location::caller();
+        tracing::error!(
+            unwrap.filepath = location.file(),
+            unwrap.lineno = location.line(),
+            unwrap.columnno = location.column(),
+            "{}",
+            msg
+        );
+    }
+
+    #[cfg(not(feature = "log-location"))]
     tracing::error!("{}", msg);
 
     #[cfg(feature = "panic-quiet")]
@@ -281,6 +296,20 @@ fn failed(msg: &str) -> ! {
 #[cold]
 #[track_caller]
 fn failed_with(msg: &str, value: &dyn fmt::Debug) -> ! {
+    #[cfg(feature = "log-location")]
+    {
+        let location = std::panic::Location::caller();
+        tracing::error!(
+            unwrap.filepath = location.file(),
+            unwrap.lineno = location.line(),
+            unwrap.columnno = location.column(),
+            "{}: {:?}",
+            msg,
+            &value
+        );
+    }
+
+    #[cfg(not(feature = "log-location"))]
     tracing::error!("{}: {:?}", msg, &value);
 
     #[cfg(feature = "panic-quiet")]

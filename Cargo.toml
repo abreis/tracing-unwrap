@@ -15,6 +15,11 @@ readme = "README.md"
 default = ["panic-quiet"]
 # Makes failed unwraps panic with an empty message.
 panic-quiet = []
+# Includes caller location in the tracing event
+log-location = []
 
 [dependencies]
 tracing = { version = "0.1", default-features = false }
+
+[dev-dependencies]
+tracing-test = { version = "0.2.3", features = ["no-env-filter"] }
