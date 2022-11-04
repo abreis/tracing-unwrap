@@ -9,7 +9,7 @@
 //! ### Usage
 //! Add the following to your `Cargo.toml`:
 //! ```toml
-//! tracing-unwrap = "0.9"
+//! tracing-unwrap = "0.10"
 //! ```
 //!
 //! Next, bring the [`ResultExt`] and/or [`OptionExt`] traits into scope, and make use of the new logging methods.
@@ -35,13 +35,15 @@
 //! | [`Option::unwrap_none()`]<sup>†</sup>      | [`Option::unwrap_none_or_log()`]      | [`OptionExt`] |
 //! | [`Option::expect_none(msg)`]<sup>†</sup>   | [`Option::expect_none_or_log(msg)`]   | [`OptionExt`] |
 //!
-//! *†: unstable in `std`*<br/>
+//! *†: no longer in `std`, see [`rust-lang/rust#62633`](https://github.com/rust-lang/rust/issues/62633)*<br/>
 //!
 //!
 //! ### Features
 //! * **`panic-quiet`**: causes failed unwraps to panic with an empty message.<br/>
 //!   This feature is enabled by default — if you'd like the unwrap error message to also show in the panic message, disable default features in your `Cargo.toml` as follows:<br/>
-//!   `tracing-unwrap = { version = "0.9", default-features = false }`
+//!   `tracing-unwrap = { version = "0.10", default-features = false }`
+//!
+//! * **`log-location`**: calls [`std::panic::Location::caller()`] to determine the location of a failed unwrap.
 //!
 //! [`tracing::Subscriber`]: https://docs.rs/tracing/*/tracing/trait.Subscriber.html
 //! [`ResultExt`]: https://docs.rs/tracing-unwrap/*/tracing_unwrap/trait.ResultExt.html
@@ -63,6 +65,7 @@
 //! [`Option::expect_or_log(msg)`]: https://docs.rs/tracing-unwrap/*/tracing_unwrap/trait.OptionExt.html#tymethod.expect_or_log
 //! [`Option::unwrap_none_or_log()`]: https://docs.rs/tracing-unwrap/*/tracing_unwrap/trait.OptionExt.html#tymethod.unwrap_none_or_log
 //! [`Option::expect_none_or_log(msg)`]: https://docs.rs/tracing-unwrap/*/tracing_unwrap/trait.OptionExt.html#tymethod.expect_none_or_log
+//! [`std::panic::Location::caller()`]: https://doc.rust-lang.org/std/panic/struct.Location.html#method.caller
 
 use std::fmt;
 
