@@ -2,7 +2,7 @@
 //!
 //! Its API aims to mirror Rust's `std` — see all the [supported methods](#methods) below. Failed unwraps are logged at a level of [`ERROR`].
 //!
-//! [![crates.io](http://meritbadge.herokuapp.com/tracing-unwrap)](https://crates.io/crates/tracing-unwrap)
+//! [![crates.io](https://img.shields.io/crates/v/tracing-unwrap?label=latest)](https://crates.io/crates/tracing-unwrap)
 //! [![Documentation](https://docs.rs/tracing-unwrap/badge.svg)](https://docs.rs/tracing-unwrap)
 //! [![License](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue.svg)](https://github.com/abreis/tracing-unwrap)
 //!
