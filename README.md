@@ -25,19 +25,19 @@ not_great.unwrap_or_log();
 ```
 
 ### Methods
-| `std` method                   | `tracing-unwrap` form               | trait         |
-|--------------------------------| ----------------------------------------|---------------|
-| [`Result::unwrap()`]           | [`Result::unwrap_or_log()`]           | [`ResultExt`] |
-| [`Result::expect(msg)`]        | [`Result::expect_or_log(msg)`]        | [`ResultExt`] |
-| [`Result::unwrap_err()`]       | [`Result::unwrap_err_or_log()`]       | [`ResultExt`] |
-| [`Result::expect_err(msg)`]    | [`Result::expect_err_or_log(msg)`]    | [`ResultExt`] |
-| [`Option::unwrap()`]           | [`Option::unwrap_or_log()`]           | [`OptionExt`] |
-| [`Option::expect(msg)`]        | [`Option::expect_or_log(msg)`]        | [`OptionExt`] |
-| [`Option::unwrap_none()`]<sup>†</sup>      | [`Option::unwrap_none_or_log()`]      | [`OptionExt`] |
-| [`Option::expect_none(msg)`]<sup>†</sup>   | [`Option::expect_none_or_log(msg)`]   | [`OptionExt`] |
+| `std` method                             | `tracing-unwrap` form               | trait         |
+| ---------------------------------------- | ----------------------------------- | ------------- |
+| [`Result::ok()`]                         | [`Result::ok_or_log()`]             | [`ResultExt`] |
+| [`Result::unwrap()`]                     | [`Result::unwrap_or_log()`]         | [`ResultExt`] |
+| [`Result::expect(msg)`]                  | [`Result::expect_or_log(msg)`]      | [`ResultExt`] |
+| [`Result::unwrap_err()`]                 | [`Result::unwrap_err_or_log()`]     | [`ResultExt`] |
+| [`Result::expect_err(msg)`]              | [`Result::expect_err_or_log(msg)`]  | [`ResultExt`] |
+| [`Option::unwrap()`]                     | [`Option::unwrap_or_log()`]         | [`OptionExt`] |
+| [`Option::expect(msg)`]                  | [`Option::expect_or_log(msg)`]      | [`OptionExt`] |
+| [`Option::unwrap_none()`]<sup>†</sup>    | [`Option::unwrap_none_or_log()`]    | [`OptionExt`] |
+| [`Option::expect_none(msg)`]<sup>†</sup> | [`Option::expect_none_or_log(msg)`] | [`OptionExt`] |
 
-*†: no longer in `std`, see [`rust-lang/rust#62633`](https://github.com/rust-lang/rust/issues/62633)*<br/>
-
+_†: no longer in `std`, see [`rust-lang/rust#62633`](https://github.com/rust-lang/rust/issues/62633)_<br/>
 
 ### Features
 * **`panic-quiet`**: causes failed unwraps to panic with an empty message.<br/>
@@ -50,6 +50,7 @@ not_great.unwrap_or_log();
 [`ResultExt`]: https://docs.rs/tracing-unwrap/*/tracing_unwrap/trait.ResultExt.html
 [`OptionExt`]: https://docs.rs/tracing-unwrap/*/tracing_unwrap/trait.OptionExt.html
 [`ERROR`]: https://docs.rs/tracing/*/tracing/struct.Level.html#associatedconstant.ERROR
+[`Result::ok()`]: https://doc.rust-lang.org/std/result/enum.Result.html#method.ok
 [`Result::unwrap()`]: https://doc.rust-lang.org/std/result/enum.Result.html#method.unwrap
 [`Result::expect(msg)`]: https://doc.rust-lang.org/std/result/enum.Result.html#method.expect
 [`Result::unwrap_err()`]: https://doc.rust-lang.org/std/result/enum.Result.html#method.unwrap_err

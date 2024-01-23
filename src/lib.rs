@@ -26,6 +26,7 @@
 //! ### Methods
 //! | `std` method                   | `tracing-unwrap` form               | trait         |
 //! |--------------------------------| ----------------------------------------|---------------|
+//! | [`Result::ok()`]               | [`Result::ok_or_log()`]               | [`ResultExt`] |
 //! | [`Result::unwrap()`]           | [`Result::unwrap_or_log()`]           | [`ResultExt`] |
 //! | [`Result::expect(msg)`]        | [`Result::expect_or_log(msg)`]        | [`ResultExt`] |
 //! | [`Result::unwrap_err()`]       | [`Result::unwrap_err_or_log()`]       | [`ResultExt`] |
@@ -49,6 +50,7 @@
 //! [`ResultExt`]: https://docs.rs/tracing-unwrap/*/tracing_unwrap/trait.ResultExt.html
 //! [`OptionExt`]: https://docs.rs/tracing-unwrap/*/tracing_unwrap/trait.OptionExt.html
 //! [`ERROR`]: https://docs.rs/tracing/*/tracing/struct.Level.html#associatedconstant.ERROR
+//! [`Result::ok()`]: https://doc.rust-lang.org/std/result/enum.Result.html#method.ok
 //! [`Result::unwrap()`]: https://doc.rust-lang.org/std/result/enum.Result.html#method.unwrap
 //! [`Result::expect(msg)`]: https://doc.rust-lang.org/std/result/enum.Result.html#method.expect
 //! [`Result::unwrap_err()`]: https://doc.rust-lang.org/std/result/enum.Result.html#method.unwrap_err
@@ -75,6 +77,13 @@ use std::fmt;
 
 /// Extension trait for Result types.
 pub trait ResultExt<T, E> {
+    /// Converts from `Result<T, E>` to [`Option<T>`]
+    ///
+    /// Converts `self` into an [`Option<T>`], consuming `self`, and logs the error, if any.
+    fn ok_or_log(self) -> Option<T>
+    where
+        E: fmt::Debug;
+
     /// Unwraps a result, yielding the content of an [`Ok`].
     ///
     /// # Panics
@@ -125,6 +134,21 @@ pub trait ResultExt<T, E> {
 }
 
 impl<T, E> ResultExt<T, E> for Result<T, E> {
+    #[inline]
+    #[track_caller]
+    fn ok_or_log(self) -> Option<T>
+    where
+        E: fmt::Debug,
+    {
+        match self {
+            Ok(t) => Some(t),
+            Err(e) => {
+                discarded_with("called `Result::ok_or_log` on an `Err` value", &e);
+                None
+            }
+        }
+    }
+
     #[inline]
     #[track_caller]
     fn unwrap_or_log(self) -> T
@@ -319,4 +343,25 @@ fn failed_with(msg: &str, value: &dyn fmt::Debug) -> ! {
     panic!();
     #[cfg(not(feature = "panic-quiet"))]
     panic!("{}: {:?}", msg, &value);
+}
+
+#[inline(never)]
+#[cold]
+#[track_caller]
+fn discarded_with(msg: &str, value: &dyn fmt::Debug) {
+    #[cfg(feature = "log-location")]
+    {
+        let location = std::panic::Location::caller();
+        tracing::error!(
+            unwrap.filepath = location.file(),
+            unwrap.lineno = location.line(),
+            unwrap.columnno = location.column(),
+            "{}: {:?}",
+            msg,
+            &value
+        );
+    }
+
+    #[cfg(not(feature = "log-location"))]
+    tracing::error!("{}: {:?}", msg, &value);
 }
