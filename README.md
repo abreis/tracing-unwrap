@@ -10,7 +10,7 @@ Its API aims to mirror Rust's `std` — see all the [supported methods](#methods
 ### Usage
 Add the following to your `Cargo.toml`:
 ```toml
-tracing-unwrap = "0.10"
+tracing-unwrap = "1.0"
 ```
 
 Next, bring the [`ResultExt`] and/or [`OptionExt`] traits into scope, and make use of the new logging methods.
@@ -42,7 +42,7 @@ _†: no longer in `std`, see [`rust-lang/rust#62633`](https://github.com/rust-l
 ### Features
 * **`panic-quiet`**: causes failed unwraps to panic with an empty message.<br/>
   This feature is enabled by default — if you'd like the unwrap error message to also show in the panic message, disable default features in your `Cargo.toml` as follows:<br/>
-  `tracing-unwrap = { version = "0.10", default-features = false }`
+  `tracing-unwrap = { version = "1.0", default-features = false }`
 
 * **`log-location`**: calls [`std::panic::Location::caller()`] to determine the location of a failed unwrap.
 
@@ -59,6 +59,7 @@ _†: no longer in `std`, see [`rust-lang/rust#62633`](https://github.com/rust-l
 [`Option::expect(msg)`]: https://doc.rust-lang.org/std/option/enum.Option.html#method.expect
 [`Option::unwrap_none()`]: https://doc.rust-lang.org/std/option/enum.Option.html#method.unwrap_none
 [`Option::expect_none(msg)`]: https://doc.rust-lang.org/std/option/enum.Option.html#method.expect_none
+[`Result::ok_or_log()`]: https://docs.rs/tracing-unwrap/*/tracing_unwrap/trait.ResultExt.html#tymethod.ok_or_log
 [`Result::unwrap_or_log()`]: https://docs.rs/tracing-unwrap/*/tracing_unwrap/trait.ResultExt.html#tymethod.unwrap_or_log
 [`Result::expect_or_log(msg)`]: https://docs.rs/tracing-unwrap/*/tracing_unwrap/trait.ResultExt.html#tymethod.expect_or_log
 [`Result::unwrap_err_or_log()`]: https://docs.rs/tracing-unwrap/*/tracing_unwrap/trait.ResultExt.html#tymethod.unwrap_err_or_log

@@ -1,8 +1,8 @@
 [package]
 name = "tracing-unwrap"
-version = "0.10.0"
+version = "1.0.0"
 authors = ["Andre Braga Reis <andre@brg.rs>"]
-edition = "2018"
+edition = "2021"
 description = "Extension traits for logging failed unwraps to a tracing subscriber."
 license = "Apache-2.0/MIT"
 repository = "https://github.com/abreis/tracing-unwrap"
@@ -22,4 +22,4 @@ log-location = []
 tracing = { version = "0.1", default-features = false }
 
 [dev-dependencies]
-tracing-test = { version = "0.2.3", features = ["no-env-filter"] }
+tracing-test = { version = "0.2", features = ["no-env-filter"] }
