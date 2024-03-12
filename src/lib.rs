@@ -78,9 +78,10 @@ use std::fmt;
 
 /// Extension trait for Result types.
 pub trait ResultExt<T, E> {
-    /// Converts from `Result<T, E>` to [`Option<T>`]
+    /// Converts `self` into an [`Option<T>`], consuming `self`, and logs the
+    /// error, if any, to a [`tracing::Subscriber`] at a [`WARN`] level.
     ///
-    /// Converts `self` into an [`Option<T>`], consuming `self`, and logs the error, if any.
+    /// [`WARN`]: /tracing/0.1/tracing/struct.Level.html#associatedconstant.WARN
     fn ok_or_log(self) -> Option<T>
     where
         E: fmt::Debug;
@@ -353,7 +354,7 @@ fn discarded_with(msg: &str, value: &dyn fmt::Debug) {
     #[cfg(feature = "log-location")]
     {
         let location = std::panic::Location::caller();
-        tracing::error!(
+        tracing::warn!(
             unwrap.filepath = location.file(),
             unwrap.lineno = location.line(),
             unwrap.columnno = location.column(),
@@ -364,5 +365,5 @@ fn discarded_with(msg: &str, value: &dyn fmt::Debug) {
     }
 
     #[cfg(not(feature = "log-location"))]
-    tracing::error!("{}: {:?}", msg, &value);
+    tracing::warn!("{}: {:?}", msg, &value);
 }

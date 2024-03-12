@@ -1,6 +1,6 @@
 [package]
 name = "tracing-unwrap"
-version = "1.0.0"
+version = "1.0.1"
 authors = ["Andre Braga Reis <andre@brg.rs>"]
 edition = "2021"
 description = "Extension traits for logging failed unwraps to a tracing subscriber."
